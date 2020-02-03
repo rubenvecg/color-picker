@@ -4,95 +4,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css?family=Port+Lligat+Sans&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="style.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body onLoad="colorOutput('hsl');">
 
 <h1> HSL - RGB Color Picker </h1>
 
 <div id="color-picker-container">
-<form id="color-picker">
 	
-	
-	<label><strong>HSL</strong></label>	
-	
-	<label>Hue:</label>
-	<input id="h-input" class="slider" type="range" min="0" max="360"
-	onInput='colorOutput("hsl");'>
-	<div class="input-value"><p id="h-value"></p><p>&deg;</p></div>
-	
-	<label>Saturation:</label>
-	<input id="s-input" class="slider" type="range" min="0" max="1"
-	step="0.01" onInput='colorOutput("hsl");'>
-	<div class="input-value"><p id="s-value"></p><p>%</p></div>
-	
-	<label>Lightness:</label>
-	<input id="l-input" class="slider" type="range" min="0" max="1"
-	step="0.01" onInput='colorOutput("hsl");'>
-	<div class="input-value"><p id="l-value" ></p><p>%</p></div>	
+	<select id="model-select" form="color-picker"'>
+			<option value="hsl">HSL</option>
+			<option value="rgb">RGB</option>
+	</select>	
+		
+	<form id='hsl' class="color-picker">
 
+		<label>Hue:</label>
+		<input id="h-input" class="slider" type="range" min="0" max="360"
+		onInput='colorOutput("hsl");'>
+		<div class="input-value"><p id="h-value"></p><p>&deg;</p></div>
+		
+		<label>Saturation:</label>
+		<input id="s-input" class="slider" type="range" min="0" max="1"
+		step="0.01" onInput='colorOutput("hsl");'>
+		<div class="input-value"><p id="s-value"></p><p>%</p></div>
+		
+		<label>Lightness:</label>
+		<input id="l-input" class="slider" type="range" min="0" max="1"
+		step="0.01" onInput='colorOutput("hsl");'>
+		<div class="input-value"><p id="l-value" ></p><p>%</p></div>	
 
-	<label><strong>RGB</strong></label>	
+	</form>
 	
-	<label>Red:</label>
-	<input id="r-input" class="slider" type="range" min="0" max="255"
-	onInput='colorOutput("rgb");'>
-	<p id="r-value" class="input-value">255</p>
-	
-	<label>Green:</label>
-	<input id="g-input" class="slider" type="range" min="0" max="255"
-	onInput='colorOutput("rgb");'>
-	<p id="g-value" class="input-value">255</p>
-	
-	<label>Blue:</label>
-	<input id="b-input" class="slider" type="range" min="0" max="255"
-	onInput='colorOutput("rgb");'>
-	<p id="b-value" class="input-value">255</p>	
-	
-	
-	<label><strong>Transparency</strong></label>
-	
-	<label>Alpha:</label>
-	<input id="a-input" class="slider" type="range" min="0" max="1"
-	step="0.01" value='1' onInput='colorOutput("rgb");'>
-	<p id="a-value" class="input-value">1</p>
-	
-	
-	<p id="hex-value">#FFFFFF</p>
-	<p id="rgb-value">rgb(255,255,255)</p>
-	<p id="hsl-value">hsl(0, 100%, 100%)</p>
+	<form id='rgb' class="color-picker hidden">
 
-</form>
-
+		<label>Red:</label>
+		<input id="r-input" class="slider" type="range" min="0" max="255"
+		onInput='colorOutput("rgb");'>
+		<p id="r-value" class="input-value">255</p>
+		
+		<label>Green:</label>
+		<input id="g-input" class="slider" type="range" min="0" max="255"
+		onInput='colorOutput("rgb");'>
+		<p id="g-value" class="input-value">255</p>
+		
+		<label>Blue:</label>
+		<input id="b-input" class="slider" type="range" min="0" max="255"
+		onInput='colorOutput("rgb");'>
+		<p id="b-value" class="input-value">255</p>	
+		
+	</form>
+	
+	<form id='alpha'>
+	
+		<label>Alpha:</label>
+		<input id="a-input" class="slider" type="range" min="0" max="1"
+		step="0.01" value='1' onInput='colorOutput("rgb");'>
+		<p id="a-value" class="input-value">1</p>
+	
+	</form>
+	
+	
+	<div id="color-values">
+	
+		<p id="hex-value">#FFFFFF</p>
+		<p id="rgb-value">rgb(255,255,255)</p>
+		<p id="hsl-value">hsl(0, 100%, 100%)</p>
+		
+	</div>
+	
+	<div id='saved-colors'>
+	
+		<p>Saved colors: </p>
+		<!--
+		
+		<div class='saved-clr-container'>
+		
+			<canvas width="96" height="90" id="alpha-sample-n"></canvas>
+			
+			<div class='saved-clr'>
+				<div class='edit-btn btn'>
+						<i class='material-icons'>&#xe8b8;</i>
+					</div>
+					
+					<div class='close-btn btn'>
+						<i class='material-icons'>&#xe5cd;</i>
+					</div>					
+				</div>
+			</div>
+		<p class='clr-val'>#FFFFFF</p>-->
+	</div>
+	
 	<div id='color-output-container'>
 	
-	<canvas width="320" height="400" id="alpha-sample">
-		<!--<h1>SAMPLE</h1>
-		<h1>SAMPLE</h1>
-		<h1>SAMPLE</h1>
-		<h1>SAMPLE</h1>
-		<h1>SAMPLE</h1>
-		<h1>SAMPLE</h1>
-		<h1>SAMPLE</h1>s
-		-->
-	</canvas>
-	<script>
-		var canvas = document.getElementById('alpha-sample');
-		var context = canvas.getContext('2d');		
-		context.fillStyle = '#666666';
-		
-		var i=0; 
-		
-		while(i < 8){		
-			var j = i % 2;
-				while(j < 10){
-					context.fillRect(i*40, j*40, 40, 40);				
-					j = j+2;
-				}				
-			i = i + 1;
-		}		
-	</script>
+	<canvas width="320" height="400" class="alpha-sample"></canvas>
 	
 	<div id='color-output'></div>
+	
+	<div id='save-btn' class='btn' onClick='saveColor();'>
+		<i class="material-icons">&#xe161;</i>
+	</div>
 	
 	</div>
 	
@@ -101,5 +112,7 @@
 
 
 </body>
+<script src="canvas.js"></script>
 <script src="main.js"></script>
+
 </html>

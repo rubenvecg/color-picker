@@ -1,4 +1,21 @@
+var selectObj = document.getElementById('model-select');
 
+selectObj.addEventListener('change', switchControls);
+
+var savedColors = new Array(5);
+var savedIndex = 0;
+
+
+
+	function switchControls(){
+		var hide = (selectObj.value == 'hsl') ? 'rgb' : 'hsl';
+		var showElem = document.getElementById(selectObj.value)
+		var hideElem = document.getElementById(hide);
+
+		hideElem.classList.add('hidden');
+		showElem.classList.remove('hidden');
+	}
+	
 	function colorOutput(model){
 		
 			var color;
@@ -58,7 +75,7 @@
 			var hexColor = (model == 'hsl') ? rgb2hex(convertColor) : rgb2hex(color);
 			document.getElementById('hex-value').innerHTML = hexColor;
 			
-			formatSliders();
+			styleSliders();
 	}
 	
 	function printValues(color, model, c1Elem, c2Elem, c3Elem){	
@@ -82,7 +99,7 @@
 		divElem.style.backgroundColor = colorValue;	
 	}
 	
-		function rgb2hsl(colorRGB){
+	function rgb2hsl(colorRGB){
 		var colorHSL = {h: 0, s:0, l: 0, a: 0};
 		
 		var rp = colorRGB.r / 255;
@@ -187,7 +204,7 @@
 		document.getElementById('a-value').innerHTML = alpha;
 	}
 	
-	function formatSliders(){
+	function styleSliders(){
 		
 		var hBackground = 'linear-gradient(90deg,';
 		var sBackground = 'linear-gradient(90deg,';
@@ -293,4 +310,75 @@
 		document.getElementById('a-input').style.background = aBackground;
 	}
 	
-	
+	function saveColor(){
+		var savedColorsCont = document.getElementById('saved-colors');
+		
+		var outputColor = document.getElementById('color-output').style.backgroundColor;
+		var split = outputColor.split('(')[1].split(',');
+		
+		var savedColor = {
+			r: split[0],
+			g: split[1],
+			b: split[2].split(')')[0],
+			a: document.getElementById('a-input').value
+		}
+		
+		savedColors[savedIndex] = savedColor;
+		
+		//Create HTML for new color
+		
+		//Main container
+		var container = document.createElement('div');
+		container.classList.add('saved-clr-container');
+		
+		//Canvas for alpha sample
+		var alphaCanvas = document.createElement('canvas');
+		alphaCanvas.classList.add('alpha-sample');
+		alphaCanvas.width = 96;
+		alphaCanvas.height = 96;
+		formatAlphaSample(alphaCanvas);
+		
+		container.appendChild(alphaCanvas);
+		
+		//Main element
+		var elem = document.createElement('div');
+		elem.classList.add('saved-clr');
+		elem.style.backgroundColor = rgb2hex(savedColors[savedIndex]);
+		elem.style.opacity = savedColors[savedIndex].a;
+		
+		//Edit Button
+		var editButton = document.createElement('div');
+		editButton.classList.add('edit-btn');
+		editButton.classList.add('btn');
+		var editIcon = document.createElement('i');
+		editIcon.classList.add('material-icons');
+		editIcon.innerHTML = '&#xe8b8;';
+		
+		editButton.appendChild(editIcon);
+		elem.appendChild(editButton);
+		
+		//Close Button
+		var closeButton = document.createElement('div');
+		closeButton.classList.add('close-btn');
+		closeButton.classList.add('btn');
+		var closeIcon = document.createElement('i');
+		closeIcon.classList.add('material-icons');
+		closeIcon.innerHTML = '&#xe5cd;';
+		
+		closeButton.appendChild(closeIcon);
+		elem.appendChild(closeButton);
+		
+		//p tag
+		var colorText = document.createElement('p');
+		colorText.classList.add('clr-val');
+		colorText.innerHTML = rgb2hex(savedColors[savedIndex]);
+		
+		container.appendChild(elem);
+		container.appendChild(colorText);
+		
+		savedColorsCont.appendChild(container);
+		
+			
+					
+		savedIndex++;		
+	}
