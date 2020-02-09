@@ -2,8 +2,8 @@ var selectObj = document.getElementById('model-select');
 selectObj.addEventListener('change', switchControls);
 
 var editMode = false;
-
-
+var editModeCont;
+var editModeValue;
 
 	function switchControls(){
 		var hide = (selectObj.value == 'hsl') ? 'rgb' : 'hsl';
@@ -15,7 +15,7 @@ var editMode = false;
 	}
 	
 	function colorOutput(model){
-		
+			
 			var color;
 			var c1, c2, c3;
 			
@@ -311,7 +311,8 @@ var editMode = false;
 	}
 	
 	function saveColor(){
-		
+	
+	editMode = false;
 	var savedColorsCont = document.getElementById('saved-colors');
 	
 		if(savedColorsCont.childElementCount <=5){
@@ -372,11 +373,11 @@ var editMode = false;
 			editButton.addEventListener('click', function(){
 				editMode = !editMode;
 				
-				if(editMode){
-					elem.parentNode.background = 'red';
-					//console.log(elem.parentNode.parentNode.backgroundColor);
+				if(editMode){					
+					editModeCont = elem;
+					editModeValue = colorText;
 				}else{
-					
+					editModeCont = '';
 				}
 			});
 			
@@ -413,5 +414,23 @@ var editMode = false;
 			alert('Please edit or delete a saved color to continue.');
 			
 			console.log(savedColorsCont.childElementCount);
+		}
+	}
+	
+	function editColor(newColor){
+		if(editMode){					
+			editModeCont.style.backgroundColor = newColor;
+			
+			var split = newColor.split('(')[1].split(',');
+			
+			
+			var editColor = {
+				r: split[0],
+				g: split[1],
+				b: split[2].split(')')[0],
+				a: document.getElementById('a-input').value
+			}
+			
+			editModeValue.innerHTML = rgb2hex(editColor);
 		}
 	}

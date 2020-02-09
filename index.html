@@ -21,17 +21,17 @@
 
 		<label>Hue:</label>
 		<input id="h-input" class="slider" type="range" min="0" max="360"
-		onInput='colorOutput("hsl");'>
+		onInput='colorOutput("hsl"); editColor(document.getElementById("color-output").style.backgroundColor);'>
 		<div class="input-value"><p id="h-value"></p><p>&deg;</p></div>
 		
 		<label>Saturation:</label>
 		<input id="s-input" class="slider" type="range" min="0" max="1"
-		step="0.01" onInput='colorOutput("hsl");'>
+		step="0.01" onInput='colorOutput("hsl"); editColor(document.getElementById("color-output").style.backgroundColor);'>
 		<div class="input-value"><p id="s-value"></p><p>%</p></div>
 		
 		<label>Lightness:</label>
 		<input id="l-input" class="slider" type="range" min="0" max="1"
-		step="0.01" onInput='colorOutput("hsl");'>
+		step="0.01" onInput='colorOutput("hsl"); editColor(document.getElementById("color-output").style.backgroundColor);'>
 		<div class="input-value"><p id="l-value" ></p><p>%</p></div>	
 
 	</form>
@@ -40,17 +40,17 @@
 
 		<label>Red:</label>
 		<input id="r-input" class="slider" type="range" min="0" max="255"
-		onInput='colorOutput("rgb");'>
+		onInput='colorOutput("rgb"); editColor(document.getElementById("color-output").style.backgroundColor);'>
 		<p id="r-value" class="input-value">255</p>
 		
 		<label>Green:</label>
 		<input id="g-input" class="slider" type="range" min="0" max="255"
-		onInput='colorOutput("rgb");'>
+		onInput='colorOutput("rgb"); editColor(document.getElementById("color-output").style.backgroundColor);'>
 		<p id="g-value" class="input-value">255</p>
 		
 		<label>Blue:</label>
 		<input id="b-input" class="slider" type="range" min="0" max="255"
-		onInput='colorOutput("rgb");'>
+		onInput='colorOutput("rgb"); editColor(document.getElementById("color-output").style.backgroundColor);'>
 		<p id="b-value" class="input-value">255</p>	
 		
 	</form>
@@ -59,7 +59,7 @@
 	
 		<label>Alpha:</label>
 		<input id="a-input" class="slider" type="range" min="0" max="1"
-		step="0.01" value='1' onInput='colorOutput("rgb");'>
+		step="0.01" value='1' onInput='colorOutput("rgb"); editColor(document.getElementById("color-output").style.backgroundColor);'>
 		<p id="a-value" class="input-value">1</p>
 	
 	</form>
