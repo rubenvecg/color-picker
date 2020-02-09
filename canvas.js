@@ -3,8 +3,6 @@ var canvas = document.getElementsByClassName('alpha-sample')[0];
 formatAlphaSample(canvas);	
 
 
-	
-
 function formatAlphaSample(canvas){
 	var i=0; 
 	var context = canvas.getContext('2d');

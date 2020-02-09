@@ -1,9 +1,7 @@
 var selectObj = document.getElementById('model-select');
-
 selectObj.addEventListener('change', switchControls);
 
-var savedColors = new Array(5);
-var savedIndex = 0;
+var editMode = false;
 
 
 
@@ -87,7 +85,7 @@ var savedIndex = 0;
 		c3Elem.innerHTML = Math.round(color[model.substring(2)] * hundred);
 	}
 	
-	function  colorString(color, model){
+	function colorString(color, model){
 		var percent = (model == 'hsl') ? '%' : '';
 		var hundred = (model == 'hsl') ? 100 : 1;
 		
@@ -100,6 +98,7 @@ var savedIndex = 0;
 	}
 	
 	function rgb2hsl(colorRGB){
+		//As learned from http://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
 		var colorHSL = {h: 0, s:0, l: 0, a: 0};
 		
 		var rp = colorRGB.r / 255;
@@ -138,6 +137,7 @@ var savedIndex = 0;
 	}
 	
 	function hsl2rgb(colorHSL){
+		//As learned from http://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
 		var colorRGB = {r: 0, g: 0, b: 0, a: 0};
 		
 		var c = (1 - Math.abs(2 * colorHSL.l - 1)) * colorHSL.s;
@@ -312,26 +312,25 @@ var savedIndex = 0;
 	
 	function saveColor(){
 		
-		if(savedIndex < 5){
-			var savedColorsCont = document.getElementById('saved-colors');
+	var savedColorsCont = document.getElementById('saved-colors');
+	
+		if(savedColorsCont.childElementCount <=5){
+			
 			
 			var outputColor = document.getElementById('color-output').style.backgroundColor;
-			var split = outputColor.split('(')[1].split(',');
-			
-			var savedColor = {
-				r: split[0],
-				g: split[1],
-				b: split[2].split(')')[0],
-				a: document.getElementById('a-input').value
-			}
-			
-			savedColors[savedIndex] = savedColor;
-			
+			console.log(outputColor);
+				
 			//Create HTML for new color
 			
 			//Main container
 			var container = document.createElement('div');
 			container.classList.add('saved-clr-container');
+			
+			//Main element
+			var elem = document.createElement('div');
+			elem.classList.add('saved-clr');
+			elem.style.backgroundColor = outputColor;
+			elem.style.opacity = outputColor.a;
 			
 			//Canvas for alpha sample
 			var alphaCanvas = document.createElement('canvas');
@@ -341,12 +340,6 @@ var savedIndex = 0;
 			formatAlphaSample(alphaCanvas);
 			
 			container.appendChild(alphaCanvas);
-			
-			//Main element
-			var elem = document.createElement('div');
-			elem.classList.add('saved-clr');
-			elem.style.backgroundColor = rgb2hex(savedColors[savedIndex]);
-			elem.style.opacity = savedColors[savedIndex].a;
 			
 			//Option buttons container 
 			var options = document.createElement('div');
@@ -360,6 +353,11 @@ var savedIndex = 0;
 			closeIcon.classList.add('material-icons');
 			closeIcon.innerHTML = '&#xe5cd;';
 			
+			closeButton.addEventListener('click', function(){
+				savedColorsCont.removeChild(container);
+			});
+			
+			
 			closeButton.appendChild(closeIcon);
 			options.appendChild(closeButton);
 			
@@ -371,6 +369,17 @@ var savedIndex = 0;
 			editIcon.classList.add('material-icons');
 			editIcon.innerHTML = '&#xe8b8;';
 			
+			editButton.addEventListener('click', function(){
+				editMode = !editMode;
+				
+				if(editMode){
+					elem.parentNode.background = 'red';
+					//console.log(elem.parentNode.parentNode.backgroundColor);
+				}else{
+					
+				}
+			});
+			
 			editButton.appendChild(editIcon);
 			options.appendChild(editButton);
 			
@@ -379,20 +388,30 @@ var savedIndex = 0;
 			//p tag
 			var colorText = document.createElement('p');
 			colorText.classList.add('clr-val');
-			colorText.innerHTML = rgb2hex(savedColors[savedIndex]);
+			
+			var split = outputColor.split('(')[1].split(',');
+			
+			var savedColor = {
+				r: split[0],
+				g: split[1],
+				b: split[2].split(')')[0],
+				a: document.getElementById('a-input').value
+			}
+			
+			colorText.innerHTML = rgb2hex(savedColor);
 			
 			container.appendChild(elem);
 			container.appendChild(colorText);
 			
-			savedColorsCont.appendChild(container);
 			
-				
-			savedColors[savedIndex] = container;			
-			savedIndex++;	
-		
+			
+			savedColorsCont.appendChild(container);				
+			
+			console.log(savedColorsCont.childElementCount);
 		}else{
 		
-			alert("Color list full");
-		
+			alert('Please edit or delete a saved color to continue.');
+			
+			console.log(savedColorsCont.childElementCount);
 		}
 	}
