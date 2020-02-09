@@ -311,74 +311,88 @@ var savedIndex = 0;
 	}
 	
 	function saveColor(){
-		var savedColorsCont = document.getElementById('saved-colors');
 		
-		var outputColor = document.getElementById('color-output').style.backgroundColor;
-		var split = outputColor.split('(')[1].split(',');
-		
-		var savedColor = {
-			r: split[0],
-			g: split[1],
-			b: split[2].split(')')[0],
-			a: document.getElementById('a-input').value
-		}
-		
-		savedColors[savedIndex] = savedColor;
-		
-		//Create HTML for new color
-		
-		//Main container
-		var container = document.createElement('div');
-		container.classList.add('saved-clr-container');
-		
-		//Canvas for alpha sample
-		var alphaCanvas = document.createElement('canvas');
-		alphaCanvas.classList.add('alpha-sample');
-		alphaCanvas.width = 96;
-		alphaCanvas.height = 96;
-		formatAlphaSample(alphaCanvas);
-		
-		container.appendChild(alphaCanvas);
-		
-		//Main element
-		var elem = document.createElement('div');
-		elem.classList.add('saved-clr');
-		elem.style.backgroundColor = rgb2hex(savedColors[savedIndex]);
-		elem.style.opacity = savedColors[savedIndex].a;
-		
-		//Edit Button
-		var editButton = document.createElement('div');
-		editButton.classList.add('edit-btn');
-		editButton.classList.add('btn');
-		var editIcon = document.createElement('i');
-		editIcon.classList.add('material-icons');
-		editIcon.innerHTML = '&#xe8b8;';
-		
-		editButton.appendChild(editIcon);
-		elem.appendChild(editButton);
-		
-		//Close Button
-		var closeButton = document.createElement('div');
-		closeButton.classList.add('close-btn');
-		closeButton.classList.add('btn');
-		var closeIcon = document.createElement('i');
-		closeIcon.classList.add('material-icons');
-		closeIcon.innerHTML = '&#xe5cd;';
-		
-		closeButton.appendChild(closeIcon);
-		elem.appendChild(closeButton);
-		
-		//p tag
-		var colorText = document.createElement('p');
-		colorText.classList.add('clr-val');
-		colorText.innerHTML = rgb2hex(savedColors[savedIndex]);
-		
-		container.appendChild(elem);
-		container.appendChild(colorText);
-		
-		savedColorsCont.appendChild(container);
-		
+		if(savedIndex < 5){
+			var savedColorsCont = document.getElementById('saved-colors');
 			
-					
-		savedIndex++;		
+			var outputColor = document.getElementById('color-output').style.backgroundColor;
+			var split = outputColor.split('(')[1].split(',');
+			
+			var savedColor = {
+				r: split[0],
+				g: split[1],
+				b: split[2].split(')')[0],
+				a: document.getElementById('a-input').value
+			}
+			
+			savedColors[savedIndex] = savedColor;
+			
+			//Create HTML for new color
+			
+			//Main container
+			var container = document.createElement('div');
+			container.classList.add('saved-clr-container');
+			
+			//Canvas for alpha sample
+			var alphaCanvas = document.createElement('canvas');
+			alphaCanvas.classList.add('alpha-sample');
+			alphaCanvas.width = 96;
+			alphaCanvas.height = 96;
+			formatAlphaSample(alphaCanvas);
+			
+			container.appendChild(alphaCanvas);
+			
+			//Main element
+			var elem = document.createElement('div');
+			elem.classList.add('saved-clr');
+			elem.style.backgroundColor = rgb2hex(savedColors[savedIndex]);
+			elem.style.opacity = savedColors[savedIndex].a;
+			
+			//Option buttons container 
+			var options = document.createElement('div');
+			options.classList.add('options');
+			
+			//Close Button
+			var closeButton = document.createElement('div');
+			closeButton.classList.add('close-btn');
+			closeButton.classList.add('btn');
+			var closeIcon = document.createElement('i');
+			closeIcon.classList.add('material-icons');
+			closeIcon.innerHTML = '&#xe5cd;';
+			
+			closeButton.appendChild(closeIcon);
+			options.appendChild(closeButton);
+			
+			//Edit Button
+			var editButton = document.createElement('div');
+			editButton.classList.add('edit-btn');
+			editButton.classList.add('btn');
+			var editIcon = document.createElement('i');
+			editIcon.classList.add('material-icons');
+			editIcon.innerHTML = '&#xe8b8;';
+			
+			editButton.appendChild(editIcon);
+			options.appendChild(editButton);
+			
+			elem.appendChild(options);
+			
+			//p tag
+			var colorText = document.createElement('p');
+			colorText.classList.add('clr-val');
+			colorText.innerHTML = rgb2hex(savedColors[savedIndex]);
+			
+			container.appendChild(elem);
+			container.appendChild(colorText);
+			
+			savedColorsCont.appendChild(container);
+			
+				
+			savedColors[savedIndex] = container;			
+			savedIndex++;	
+		
+		}else{
+		
+			alert("Color list full");
+		
+		}
 	}

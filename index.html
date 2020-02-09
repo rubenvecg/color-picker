@@ -12,7 +12,7 @@
 
 <div id="color-picker-container">
 	
-	<select id="model-select" form="color-picker"'>
+	<select id="model-select" form="color-picker">
 			<option value="hsl">HSL</option>
 			<option value="rgb">RGB</option>
 	</select>	
@@ -64,7 +64,6 @@
 	
 	</form>
 	
-	
 	<div id="color-values">
 	
 		<p id="hex-value">#FFFFFF</p>
@@ -75,7 +74,7 @@
 	
 	<div id='saved-colors'>
 	
-		<p>Saved colors: </p>
+		<p style="grid-column: span 2;">Saved colors: </p>
 		<!--
 		
 		<div class='saved-clr-container'>
@@ -83,6 +82,8 @@
 			<canvas width="96" height="90" id="alpha-sample-n"></canvas>
 			
 			<div class='saved-clr'>
+				
+				<div class='saved-options'>
 				<div class='edit-btn btn'>
 						<i class='material-icons'>&#xe8b8;</i>
 					</div>
@@ -91,9 +92,12 @@
 						<i class='material-icons'>&#xe5cd;</i>
 					</div>					
 				</div>
+				</div>
 			</div>
 		<p class='clr-val'>#FFFFFF</p>-->
 	</div>
+	
+	
 	
 	<div id='color-output-container'>
 	
